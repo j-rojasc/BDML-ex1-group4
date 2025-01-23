@@ -21,3 +21,7 @@ ggplot(db, aes(ingtot)) +
   ggtitle(" Ingreso Total") +
   theme_classic() +
   theme(plot.title = element_text(size = 18))
+
+db <- db  %>%
+  mutate(ingtot = ifelse(is.na(ingtot) == TRUE, median(db$ingtot, na.rm = TRUE) , ingtot))
+is.na(db$y_total_m) %>% table()
