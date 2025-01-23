@@ -25,3 +25,19 @@ ggplot(db, aes(ingtot)) +
 db <- db  %>%
   mutate(ingtot = ifelse(is.na(ingtot) == TRUE, median(db$ingtot, na.rm = TRUE) , ingtot))
 is.na(db$y_total_m) %>% table()
+
+## replace values:
+db %>% select(directorio,y_total_m) %>% tail()
+
+db = db %>% 
+     group_by(directorio) %>% 
+     mutate(mean_y_total_m = mean(y_total_m,na.rm=T))
+
+db %>% select(directorio,y_total_m,mean_y_total_m) %>% tail()
+
+db = db %>%
+     mutate(y_total_m = ifelse(test = is.na(y_total_m)==T,
+                               yes = mean_y_total_m,
+                               no = y_total_m))
+
+db %>% select(directorio,y_total_m,mean_y_total_m) %>% tail()
